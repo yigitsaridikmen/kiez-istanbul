@@ -4,7 +4,8 @@ from accounts import views as account_view
 from advisor import views as advisor
 
 urlpatterns = [
-    path("", advisor.home_page, name="advisor"),
+    #path("", advisor.home_page, name="advisor"),
+    path("", advisor.list_places, name="list_places"),
 	# login-section
 	path("auth/login/", LoginView.as_view
 		(template_name="advisor/loginpage.html"), name="login-user"),
