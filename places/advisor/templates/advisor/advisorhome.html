@@ -25,23 +25,99 @@
 {% endif %}
 	<!-- The sidebar -->
 <div class="sidebar">
-	<a class="active" href="#home">Home</a>
-	<a href="#news">News</a>
-	<a href="#contact">Contact</a>
-	<a href="#about">About</a>
+    <h2 style="margin-left: 5%;"><u>Filters</u></h2>
+    <form id="filterForm">
+		<!-- County Filter -->
+		<label for="place_type">County:</label>
+        <select name="place_type" id="place_type">
+            <option value="">All</option>
+			{% for county in distinct_counties %}
+			<option value="{{county}}">{{county}}</option>
+			{% endfor %}
+        </select>
+		<br>    	
+
+		<!-- District Filter -->
+		<label for="place_type">District:</label>
+        <select name="place_type" id="place_type">
+            <option value="">All</option>
+			{% for district in distinct_districts %}
+			<option value="{{county}}">{{district}}</option>
+			{% endfor %}
+        </select>
+		<br>   		
+        <!-- Place Type Filter -->
+        <label for="place_type">Place Type:</label>
+        <select name="place_type" id="place_type">
+            <option value="">All</option>
+			<option value="Bar">Bar</option>
+			<option value="Cafe">Cafe</option>
+			<option value="Club">Club</option>
+			<option value="Food">Food</option>
+        </select>
+		<br>
+        <!-- Price Category Filter -->
+        <label for="price_category">Price Category:</label>
+        <select name="price_category" id="price_category">
+            <option value="">All</option>
+                <option value="Cheap">Cheap</option>
+                <option value="Normal">Normal</option>
+                <option value="Expensive">Expensive</option>
+        </select>
+		<br>
+        <!-- Loudness Filter -->
+        <label for="loudness">Loudness:</label>
+        <select name="loudness" id="loudness">
+            <option value="">All</option>
+			<option value="Silent">Silent</option>
+			<option value="Moderate">Moderate</option>
+			<option value="Loud">Loud</option>
+        </select>
+
+        <!-- Submit Button -->
+        <br><br>
+		<button type="submit">Apply Filters</button>
+    </form><br>
+	    <!-- Boolean Filters -->
+		<button style="margin-left:5%" type="button" onclick="toggleFilter('largegroup')">Large Group</button>
+		<button style="margin-right:5%" type="button" onclick="toggleFilter('alone')">Alone</button><br><br>
+		<button style="margin-left:5%" type="button" onclick="toggleFilter('dateable')">Dateable</button>
+		<button style="margin-right:5%" type="button" onclick="toggleFilter('kitchen')">Kitchen</button><br><br>
+		<button style="margin-left:5%" type="button" onclick="toggleFilter('smoke')">Smoking Allowed</button>
+		<button style="margin-right:5%" type="button" onclick="toggleFilter('door_policy')">Door Policy?</button>
   </div>
   
   <!-- Page content -->
+  <div style="margin: 0 25%;">
   {% for place in object_list %}  
-  <div style="color: white;" class="content">
+	{% if place.place_type == 'Bar' %}	
+  <div style="color: white;background-color:#05008b ;" class="content">
 		<b>{{ place.name }}</b><br>
 		{{ place.district }} / {{ place.county }}<br>
 		<em>{{ place.place_type }}</em>
-		
   </div>
+  {% elif place.place_type == 'Cafe' %}
+  <div style="color: white;background-color:#009930 ;" class="content">
+	<b>{{ place.name }}</b><br>
+	{{ place.district }} / {{ place.county }}<br>
+	<em>{{ place.place_type }}</em>
+</div>
+  {% elif place.place_type == 'Club' %}
+  <div style="color: white;background-color:#57055e ;" class="content">
+	<b>{{ place.name }}</b><br>
+	{{ place.district }} / {{ place.county }}<br>
+	<em>{{ place.place_type }}</em>
+</div>
+  {% else %}
+  <div style="color: white;background-color:#8b2500 ;" class="content">
+	<b>{{ place.name }}</b><br>
+	{{ place.district }} / {{ place.county }}<br>
+	<em>{{ place.place_type }}</em>
+</div>
+{% endif %}
   <br>
   {% endfor %}
-
+</div>
 	 <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -54,13 +130,16 @@
 .sidebar {
   margin: 0;
   padding: 0;
-  width: 200px;
-  background-color: #f1f1f1;
+  width: 25%;
+  background-color: #ff8d41;
   position: fixed;
   height: 100%;
   overflow: auto;
+  border-radius: 5%;
 }
-
+.sidebar form{
+  margin-left: 5%;
+}
 /* Sidebar links */
 .sidebar a {
   display: block;
@@ -74,7 +153,10 @@
   background-color: #04AA6D;
   color: white;
 }
-
+.sidebar button {
+	cursor: pointer;
+	background-color: #bebebc;
+}
 /* Links on mouse-over */
 .sidebar a:hover:not(.active) {
   background-color: #555;
@@ -88,7 +170,7 @@ div.content {
 	max-width: 600px;
 	border-radius: 8px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.322);
-	background-color: #05008b;
+	/*background-color: #05008b;*/
 }
 
 
@@ -113,3 +195,15 @@ div.content {
   }
 }
 </style>
+
+<script>
+    function toggleFilter(filterName) {
+        var filterInput = document.getElementById(filterName);
+        
+        // Toggle the filter value
+        filterInput.value = filterInput.value === 'true' ? 'false' : 'true';
+
+        // Trigger form submission to apply filters
+        document.getElementById('filterForm').submit();
+    }
+</script>
