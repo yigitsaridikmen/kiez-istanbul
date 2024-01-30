@@ -217,6 +217,7 @@ div.content {
 
     document.addEventListener('htmx:afterRequest', function (event) {
         var responseString = event.detail.xhr.response;
+        try{
         var response = JSON.parse(responseString);
         var districts = response.districts;
         console.log(response);
@@ -241,6 +242,6 @@ div.content {
         var districtOptionsContainer = document.getElementById('district-options');
         if (districtOptionsContainer) {
             districtOptionsContainer.innerHTML = JSON.stringify(response.districts, null, 2);
-        }
+        }}catch(error){}
     });
 </script>
