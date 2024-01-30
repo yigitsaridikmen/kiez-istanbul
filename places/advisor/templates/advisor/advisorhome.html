@@ -80,9 +80,18 @@
         <!-- Submit Button -->
         <br><br>
 		<button type="submit"  >Apply Filters</button>
+    <!-- Hidden Tag Filters, only triggered with buttons -->
+    <input type="hidden" name="largegroup" id="largegroup" value="false">
+    <input type="hidden" name="alone" id="alone" value="false">
+    <input type="hidden" name="dateable" id="dateable" value="false">
+    <input type="hidden" name="kitchen" id="kitchen" value="false">
+    <input type="hidden" name="smoke" id="smoke" value="false">
+    <input type="hidden" name="door_policy" id="door_policy" value="false">
+    <input type="hidden" name="readble" id="readble" value="false">
+    <input type="hidden" name="workable" id="workable" value="false">
     </form><br>
 	    <!-- Boolean Filters -->
-		<button style="margin-left:5%" type="button" onclick="toggleFilter('largegroup')">Large Group</button>
+		<button style="margin-left:5%" type="button" hx-post="{% url 'filter-list' %}" hx-trigger="click" hx-target="#content-list" hx-params="largegroup=true">Large Group</button>
 		<button style="margin-right:5%" type="button" onclick="toggleFilter('alone')">Alone</button><br><br>
 		<button style="margin-left:5%" type="button" onclick="toggleFilter('dateable')">Date-proof</button>
 		<button style="margin-right:5%" type="button" onclick="toggleFilter('kitchen')">Kitchen</button><br><br>

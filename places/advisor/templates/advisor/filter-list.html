@@ -14,7 +14,7 @@
 <body style="background-color: #222222;">
   
   <!-- Page content -->
-  <div hx-get="list_places">
+  <div id='content-list'>
   <div style="margin: 0 25%;">
   {% for place in object_list %}  
 	{% if place.place_type == 'Bar' %}	

@@ -49,6 +49,7 @@ def filter_list(request):
         place_type = request.POST.get('place_type', '')
         price_category = request.POST.get('price_category', '')
         loudness = request.POST.get('loudness', '')
+        largegroup = request.POST.get('largegroup', '')
 
         # Perform filtering based on form data
         # Adjust this part based on your model fields and filter requirements
@@ -62,7 +63,8 @@ def filter_list(request):
             places = places.filter(price_category=price_category)
         if loudness:
             places = places.filter(loudness=loudness)
-
+        if largegroup:
+            places = places.filter(largegroup=True)
     context = {
         'object_list': places,
         # Add other context variables as needed
