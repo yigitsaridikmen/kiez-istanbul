@@ -36,11 +36,35 @@ def get_districts(request):
         return JsonResponse({'districts': list(distinct_districts)})
     else:
         return JsonResponse({})
-    
-# def get_districts(request):
-#     county = request.GET.get('county', None)
-#     if county is not None:
-#         distinct_districts = PlaceInfo.objects.filter(county=county).values_list('district', flat=True).distinct()
-#         return render(request, "advisor/advisorhome.html", context={"distinct_districts":distinct_districts})
-#     else:
-#         return JsonResponse({'districts': []})    
+
+@csrf_exempt    
+def filter_list(request):
+    # Assuming YourPlaceModel is the model for your places
+    places = PlaceInfo.objects.all()
+
+    # Handle form submission for filtering
+    if request.method == 'POST':
+        county = request.POST.get('county', '')
+        district = request.POST.get('district', '')
+        place_type = request.POST.get('place_type', '')
+        price_category = request.POST.get('price_category', '')
+        loudness = request.POST.get('loudness', '')
+
+        # Perform filtering based on form data
+        # Adjust this part based on your model fields and filter requirements
+        if county:
+            places = places.filter(county=county)
+        if district:
+            places = places.filter(district=district)
+        if place_type:
+            places = places.filter(place_type=place_type)
+        if price_category:
+            places = places.filter(price_category=price_category)
+        if loudness:
+            places = places.filter(loudness=loudness)
+
+    context = {
+        'object_list': places,
+        # Add other context variables as needed
+    }
+    return render(request, "advisor/filter-list.html", context)

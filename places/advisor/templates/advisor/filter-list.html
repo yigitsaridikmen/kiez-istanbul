@@ -12,88 +12,9 @@
 		<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
 </head>
 <body style="background-color: #222222;">
-	{% include 'base/navbar.html' %}
-	<center><h1 style="color: #eeeeee;">Welcome {{request.user}}!</h1></center>
-	<br>
-	{% if request.user.is_authenticated %}
-    <center style="color: #eeeeee;">
-        <form method="post" action="{% url 'logout-user' %}">
-            {% csrf_token %}
-            <button style='border-radius: 40%; cursor: pointer;' type="submit">Logout</button>
-        </form>
-    </center><br>
-{% endif %}
-	<!-- The sidebar -->
-<div class="sidebar">
-    <h2 style="margin-left: 5%;"><u>Filters</u></h2>
-    <form id="filterForm" method="post" hx-post="{% url 'filter-list' %}" hx-target="#content-list">
-		<!-- County Filter -->
-		<label for="county">County:</label>
-        <select  name="county" id="county" hx-get="/get-districts/" hx-trigger="change"  hx-target="#info-container">
-            <option value="">All</option>
-			{% for county in distinct_counties %}
-			<option value="{{county}}">{{county}}</option>
-			{% endfor %}
-        </select>
-		<br>    	
-    <div style='display: none;'id="info-container"></div>
-		<!-- District Filter -->
-    <div id="district-container">
-		<label for="district">District:</label>
-        <select name="district" id="district" >
-            <option value="">All</option>
-        </select>
-      </div>
-		<br> 
-    
-    <!-- The container to update with the received "District" options -->
-<div style="display: none;" id="district-options"></div>
-
-        <!-- Place Type Filter -->
-        <label for="place_type">Place Type:</label>
-        <select name="place_type" id="place_type">
-            <option value="">All</option>
-			<option value="Bar">Bar</option>
-			<option value="Cafe">Cafe</option>
-			<option value="Club">Club</option>
-			<option value="Food">Food</option>
-        </select>
-		<br>
-        <!-- Price Category Filter -->
-        <label for="price_category">Price Category:</label>
-        <select name="price_category" id="price_category">
-            <option value="">All</option>
-                <option value="Cheap">Cheap</option>
-                <option value="Normal">Normal</option>
-                <option value="Expensive">Expensive</option>
-        </select>
-		<br>
-        <!-- Loudness Filter -->
-        <label for="loudness">Loudness:</label>
-        <select name="loudness" id="loudness">
-            <option value="">All</option>
-			<option value="Silent">Silent</option>
-			<option value="Moderate">Moderate</option>
-			<option value="Loud">Loud</option>
-        </select>
-
-        <!-- Submit Button -->
-        <br><br>
-		<button type="submit"  >Apply Filters</button>
-    </form><br>
-	    <!-- Boolean Filters -->
-		<button style="margin-left:5%" type="button" onclick="toggleFilter('largegroup')">Large Group</button>
-		<button style="margin-right:5%" type="button" onclick="toggleFilter('alone')">Alone</button><br><br>
-		<button style="margin-left:5%" type="button" onclick="toggleFilter('dateable')">Date-proof</button>
-		<button style="margin-right:5%" type="button" onclick="toggleFilter('kitchen')">Kitchen</button><br><br>
-		<button style="margin-left:5%" type="button" onclick="toggleFilter('smoke')">Smoking Allowed</button>
-		<button style="margin-right:5%" type="button" onclick="toggleFilter('door_policy')">Door Policy</button><br><br>
-    <button style="margin-left:5%" type="button" onclick="toggleFilter('readble')">Read-friendly</button>
-		<button style="margin-right:5%" type="button" onclick="toggleFilter('workable')">Work-friendly</button>
-  </div>
   
   <!-- Page content -->
-  <div id='content-list' hx-get="list_places">
+  <div hx-get="list_places">
   <div style="margin: 0 25%;">
   {% for place in object_list %}  
 	{% if place.place_type == 'Bar' %}	

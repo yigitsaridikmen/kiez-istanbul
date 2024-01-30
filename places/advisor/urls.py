@@ -7,6 +7,7 @@ urlpatterns = [
     #path("", advisor.home_page, name="advisor"),
     path("", advisor.list_places, name="list_places"),
     path("get-districts/", advisor.get_districts, name="get-districts"),
+    path("filter-list/", advisor.filter_list, name="filter-list"),
 	# login-section
 	path("auth/login/", LoginView.as_view
 		(template_name="advisor/loginpage.html"), name="login-user"),
