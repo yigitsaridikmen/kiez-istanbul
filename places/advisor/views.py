@@ -50,6 +50,14 @@ def filter_list(request):
         price_category = request.POST.get('price_category', '')
         loudness = request.POST.get('loudness', '')
         largegroup = request.POST.get('largegroup', '')
+        alone = request.POST.get('alone', '')
+        dateable = request.POST.get('dateable', '')
+        kitchen = request.POST.get('kitchen', '')
+        smoke = request.POST.get('smoke', '')
+        door_policy = request.POST.get('door_policy', '')
+        readable = request.POST.get('readable', '')
+        workable = request.POST.get('workable', '')
+
 
         # Perform filtering based on form data
         # Adjust this part based on your model fields and filter requirements
@@ -65,6 +73,20 @@ def filter_list(request):
             places = places.filter(loudness=loudness)
         if largegroup:
             places = places.filter(largegroup=True)
+        if alone:
+            places = places.filter(alone=True)
+        if dateable:
+            places = places.filter(dateable=True)
+        if kitchen:
+            places = places.filter(kitchen=True)      
+        if smoke:
+            places = places.filter(smoke=True)
+        if door_policy:
+            places = places.filter(door_policy=True)
+        if readable:
+            places = places.filter(readable=True)
+        if workable:
+            places = places.filter(workable=True)  
     context = {
         'object_list': places,
         # Add other context variables as needed
