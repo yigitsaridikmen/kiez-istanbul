@@ -6,6 +6,7 @@ from advisor import views as advisor
 urlpatterns = [
     #path("", advisor.home_page, name="advisor"),
     path("", advisor.list_places, name="list_places"),
+    path("get-districts/", advisor.get_districts, name="get-districts"),
 	# login-section
 	path("auth/login/", LoginView.as_view
 		(template_name="advisor/loginpage.html"), name="login-user"),

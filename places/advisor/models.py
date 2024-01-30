@@ -20,7 +20,7 @@ class PlaceInfo(models.Model):
         choices=TYPE_CHOICES, # You can set a default value if needed
     )
 
-    activity = models.CharField(max_length=50)
+    #activity = models.CharField(max_length=50)
     
     largegroup = models.BooleanField()
     alone = models.BooleanField()
@@ -40,6 +40,8 @@ class PlaceInfo(models.Model):
     kitchen = models.BooleanField()
     smoke = models.BooleanField()
     door_policy = models.BooleanField()
+    readable = models.BooleanField(default=False)
+    workable = models.BooleanField(default=False)
     LOUDNESS_CHOICES = [
         ('Silent', 'Silent'),
         ('Moderate', 'Moderate'),

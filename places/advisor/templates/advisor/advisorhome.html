@@ -28,24 +28,27 @@
     <h2 style="margin-left: 5%;"><u>Filters</u></h2>
     <form id="filterForm">
 		<!-- County Filter -->
-		<label for="place_type">County:</label>
-        <select name="place_type" id="place_type">
+		<label for="county">County:</label>
+        <select  name="county" id="county" hx-get="/get-districts/" hx-trigger="change"  hx-target="#info-container">
             <option value="">All</option>
 			{% for county in distinct_counties %}
 			<option value="{{county}}">{{county}}</option>
 			{% endfor %}
         </select>
 		<br>    	
-
+    <div style='display: none;'id="info-container"></div>
 		<!-- District Filter -->
-		<label for="place_type">District:</label>
-        <select name="place_type" id="place_type">
+    <div id="district-container">
+		<label for="district">District:</label>
+        <select name="district" id="district" >
             <option value="">All</option>
-			{% for district in distinct_districts %}
-			<option value="{{county}}">{{district}}</option>
-			{% endfor %}
         </select>
-		<br>   		
+      </div>
+		<br> 
+    
+    <!-- The container to update with the received "District" options -->
+<div style="display: none;" id="district-options"></div>
+
         <!-- Place Type Filter -->
         <label for="place_type">Place Type:</label>
         <select name="place_type" id="place_type">
@@ -81,10 +84,12 @@
 	    <!-- Boolean Filters -->
 		<button style="margin-left:5%" type="button" onclick="toggleFilter('largegroup')">Large Group</button>
 		<button style="margin-right:5%" type="button" onclick="toggleFilter('alone')">Alone</button><br><br>
-		<button style="margin-left:5%" type="button" onclick="toggleFilter('dateable')">Dateable</button>
+		<button style="margin-left:5%" type="button" onclick="toggleFilter('dateable')">Date-proof</button>
 		<button style="margin-right:5%" type="button" onclick="toggleFilter('kitchen')">Kitchen</button><br><br>
 		<button style="margin-left:5%" type="button" onclick="toggleFilter('smoke')">Smoking Allowed</button>
-		<button style="margin-right:5%" type="button" onclick="toggleFilter('door_policy')">Door Policy?</button>
+		<button style="margin-right:5%" type="button" onclick="toggleFilter('door_policy')">Door Policy</button><br><br>
+    <button style="margin-left:5%" type="button" onclick="toggleFilter('readble')">Read-friendly</button>
+		<button style="margin-right:5%" type="button" onclick="toggleFilter('workable')">Work-friendly</button>
   </div>
   
   <!-- Page content -->
@@ -206,4 +211,34 @@ div.content {
         // Trigger form submission to apply filters
         document.getElementById('filterForm').submit();
     }
+
+
+    document.addEventListener('htmx:afterRequest', function (event) {
+        var responseString = event.detail.xhr.response;
+        var response = JSON.parse(responseString);
+        var districts = response.districts;
+        console.log(response);
+        console.log(districts);
+        var districtSelect = document.getElementById('district');
+        console.log(districtSelect);
+        // Check if the target element exists
+        if (districtSelect) {
+            // Clear existing options
+            districtSelect.innerHTML = '<option value="">All</option>';
+
+            // Populate with received options
+            response.districts.forEach(function (district) {
+                var optionElement = document.createElement('option');
+                optionElement.value = district;
+                optionElement.text = district;
+                // console.log('OPtionelement',optionElement);
+                districtSelect.appendChild(optionElement);
+            });
+        }
+        // Optional: Update a separate container with the received options
+        var districtOptionsContainer = document.getElementById('district-options');
+        if (districtOptionsContainer) {
+            districtOptionsContainer.innerHTML = JSON.stringify(response.districts, null, 2);
+        }
+    });
 </script>

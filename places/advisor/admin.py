@@ -12,7 +12,7 @@ class PlaceAdmin(admin.ModelAdmin):
     'county',
     'district',
     'place_type',
-    'activity',
+    #'activity',
     'largegroup',
     'alone',
     'dateable',
@@ -20,6 +20,8 @@ class PlaceAdmin(admin.ModelAdmin):
     'kitchen',
     'smoke',
     'door_policy',
+    'readable',
+    'workable',
     'loudness',
     'comment' ,
     'created_at'
