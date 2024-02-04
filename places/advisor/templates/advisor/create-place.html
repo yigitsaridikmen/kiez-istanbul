@@ -1,0 +1,216 @@
+<!DOCTYPE html >
+<html>
+	
+<head>
+	    <!-- Required meta tags -->
+		<link rel="shortcut icon" href="#">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<title>Add a new place</title>
+		<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+</head>
+<body style="background-color: #222222;">
+	{% include 'base/navbar.html' %}
+	<center><h1 style="color: #eeeeee;">Welcome {{request.user}}!</h1></center>
+	<br>
+	{% if request.user.is_authenticated %}
+    <center style="color: #eeeeee;">
+        <form method="post" action="{% url 'logout-user' %}">
+            {% csrf_token %}
+            <button style='border-radius: 40%; cursor: pointer;' type="submit">Logout</button>
+        </form>
+    </center><br>
+{% endif %}
+
+  <!-- Page content -->
+<!-- Page content -->
+<div id='content-list'>
+    <div style="margin: 0 25%; color: whitesmoke;">
+      <h2>Create a New Place</h2>
+      <form method="post" action="{% url 'create-place' %}">
+        {% csrf_token %}
+        
+        <div class="form-group">
+          <label for="{{ form.name.id_for_label }}">Name:</label>
+          {{ form.name }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.address.id_for_label }}">Address:</label>
+            {{ form.address }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.county.id_for_label }}">County:</label>
+            {{ form.county }}
+          </div>  
+        <div class="form-group">
+          <label for="{{ form.district.id_for_label }}">District:</label>
+          {{ form.district }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.place_type.id_for_label }}">Place Type:</label>
+            {{ form.place_type }}
+          </div>
+        <div class="form-group">
+            <label for="{{ form.price_category.id_for_label }}">Price Category:</label>
+            {{ form.price_category }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.loudness.id_for_label }}">Loudness Level:</label>
+            {{ form.loudness }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.largegroup.id_for_label }}">Fit for large groups?</label>
+            {{ form.largegroup }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.alone.id_for_label }}">Fit for alone time?</label>
+            {{ form.alone }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.dateable.id_for_label }}">Date-Proof?</label>
+            {{ form.dateable }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.kitchen.id_for_label }}">Kitchen available?</label>
+            {{ form.kitchen }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.smoke.id_for_label }}">Smoking Allowed?</label>
+            {{ form.smoke }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.door_policy.id_for_label }}">Is there a door policy?</label>
+            {{ form.door_policy }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.readable.id_for_label }}">Readable?</label>
+            {{ form.readable }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.workable.id_for_label }}">Workable?</label>
+            {{ form.workable }}
+          </div>
+        <div class="form-group">
+            <label for="{{ form.comment.id_for_label }}">Comments or Special Recommendations</label>
+            {{ form.comment }}
+          </div>
+        <!-- Add other fields as needed -->
+  
+        <button type="submit" class="btn btn-primary">Create Place</button>
+      </form>
+    </div>
+  </div>
+  
+	 <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
+<style>
+	/* The side navigation menu */
+    .sidebar {
+  margin: 0;
+  padding: 0;
+  width: 10%;
+  background-color: #ff8d41;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+  border-radius: 5%;
+}
+.sidebar form{
+  margin-left: 5%;
+}
+/* Sidebar links */
+.sidebar a {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
+
+/* Active/current link */
+.sidebar a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+.sidebar button {
+	cursor: pointer;
+	background-color: #bebebc;
+}
+/* Links on mouse-over */
+.sidebar a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
+div.content {
+	margin-left: 200px;
+	padding: 10px 16px;
+	max-width: 600px;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.322);
+	/*background-color: #05008b;*/
+}
+
+
+
+
+/* On screens that are less than 700px wide, make the sidebar into a topbar */
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sidebar a {float: left;}
+  div.content {margin-left: 0;}
+}
+
+/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+@media screen and (max-width: 400px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }
+}
+</style>
+
+<script>
+
+    document.addEventListener('htmx:afterRequest', function (event) {
+        var responseString = event.detail.xhr.response;
+        try{
+        var response = JSON.parse(responseString);
+        var districts = response.districts;
+        console.log(response);
+        console.log(districts);
+        var districtSelect = document.getElementById('district');
+        console.log(districtSelect);
+        // Check if the target element exists
+        if (districtSelect) {
+            // Clear existing options
+            districtSelect.innerHTML = '<option value="">All</option>';
+
+            // Populate with received options
+            response.districts.forEach(function (district) {
+                var optionElement = document.createElement('option');
+                optionElement.value = district;
+                optionElement.text = district;
+                // console.log('OPtionelement',optionElement);
+                districtSelect.appendChild(optionElement);
+            });
+        }
+        // Optional: Update a separate container with the received options
+        var districtOptionsContainer = document.getElementById('district-options');
+        if (districtOptionsContainer) {
+            districtOptionsContainer.innerHTML = JSON.stringify(response.districts, null, 2);
+        }}catch(error){}
+    });
+
+</script>

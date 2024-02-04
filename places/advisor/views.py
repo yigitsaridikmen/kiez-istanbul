@@ -4,6 +4,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import PlaceInfo
 from django.utils import timezone
+from .forms import PlaceForm
+from django.contrib import messages
 # Create your views here.
 def home_page(request, *args, **kwargs):
     
@@ -101,3 +103,25 @@ def place_detail(request, slug):
     print(place.name)
     print(place.slug)
     return render(request, 'advisor/place-detail.html', {'place': place})
+
+
+def create_place(request):
+    if request.method == 'POST':
+        form = PlaceForm(request.POST)
+        form.instance.user = request.user
+        if form.is_valid():
+            print('form is valid')
+            form.save()
+            return redirect('list_places')
+        else:
+            # Form is not valid, show error messages
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Error in {field}: {error}")  # Redirect to the place list page
+    else:
+        print('form is not valid')
+        form = PlaceForm()
+
+    return render(request, 'advisor/create-place.html', {'form': form})
+
+
