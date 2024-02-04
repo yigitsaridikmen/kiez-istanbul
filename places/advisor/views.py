@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -92,3 +92,12 @@ def filter_list(request):
         # Add other context variables as needed
     }
     return render(request, "advisor/filter-list.html", context)
+
+
+def place_detail(request, slug):
+    place = get_object_or_404(PlaceInfo, slug=slug)
+    print(place.city)
+    print(place.county)
+    print(place.name)
+    print(place.slug)
+    return render(request, 'advisor/place-detail.html', {'place': place})
