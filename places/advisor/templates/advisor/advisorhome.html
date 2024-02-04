@@ -127,6 +127,7 @@
         <!-- Submit Button -->
         <br><br>
 		<button type="submit"  >Apply Filters</button>
+    <button type="button" onclick="resetFilters()">Reset Filters</button>
     </form><br>
 
   </div>
@@ -136,29 +137,33 @@
   <div style="margin: 0 25%;">
   {% for place in object_list %}  
 	{% if place.place_type == 'Bar' %}	
+  <a href="{% url 'place_detail' slug=place.slug %}">
   <div style="color: white;background-color:#05008b ;" class="content">
 		<b>{{ place.name }}</b><br>
 		{{ place.district }} / {{ place.county }}<br>
 		<em>{{ place.place_type }}</em>
-  </div>
+  </div></a>
   {% elif place.place_type == 'Cafe' %}
+  <a href="{% url 'place_detail' slug=place.slug %}">
   <div style="color: white;background-color:#009930 ;" class="content">
 	<b>{{ place.name }}</b><br>
 	{{ place.district }} / {{ place.county }}<br>
 	<em>{{ place.place_type }}</em>
-</div>
+</div></a>
   {% elif place.place_type == 'Club' %}
+  <a href="{% url 'place_detail' slug=place.slug %}">
   <div style="color: white;background-color:#57055e ;" class="content">
 	<b>{{ place.name }}</b><br>
 	{{ place.district }} / {{ place.county }}<br>
 	<em>{{ place.place_type }}</em>
-</div>
+</div></a>
   {% else %}
+  <a href="{% url 'place_detail' slug=place.slug %}">
   <div style="color: white;background-color:#8b2500 ;" class="content">
 	<b>{{ place.name }}</b><br>
 	{{ place.district }} / {{ place.county }}<br>
 	<em>{{ place.place_type }}</em>
-</div>
+</div></a>
 {% endif %}
   <br>
   {% endfor %}
@@ -283,4 +288,21 @@ div.content {
             districtOptionsContainer.innerHTML = JSON.stringify(response.districts, null, 2);
         }}catch(error){}
     });
+
+    //Reset filters
+    function resetFilters() {
+        // Get the CSRF token
+        var csrfToken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+
+        // Reset the form to its default values
+        document.getElementById('filterForm').reset();
+
+        // Include CSRF token in the headers
+        htmx.ajax('POST', '{% url "filter-list" %}', {
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            target: '#content-list'
+        });
+    }
 </script>

@@ -24,8 +24,15 @@
     </center><br>
 {% endif %}
 	<!-- The sidebar -->
-<div class="sidebar">
-    <h2 style="margin-left: 5%;"><u>Home</u></h2>
+    <div class="sidebar">
+        <h2 style="margin-left: 5%;">
+            <a href="{% url 'list_places' %}" style="text-decoration: none; color: black;">
+                <u>Home</u>
+            </a>
+        </h2>
+        <!-- Other sidebar content goes here -->
+    </div>
+    
 
 
   </div>
