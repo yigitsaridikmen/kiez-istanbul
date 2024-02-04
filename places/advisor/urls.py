@@ -8,8 +8,8 @@ urlpatterns = [
     path("", advisor.list_places, name="list_places"),
     path("get-districts/", advisor.get_districts, name="get-districts"),
     path("filter-list/", advisor.filter_list, name="filter-list"),
-	path('place/<slug:slug>/', advisor.place_detail, name='place_detail'),
     path('create-place/', advisor.create_place, name='create-place'),
+	path('<slug:slug>/', advisor.place_detail, name='place_detail'),
 	# login-section
 	path("auth/login/", LoginView.as_view
 		(template_name="advisor/loginpage.html"), name="login-user"),

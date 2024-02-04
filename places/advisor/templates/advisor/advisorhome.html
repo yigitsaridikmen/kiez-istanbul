@@ -11,8 +11,117 @@
 		<title>Place Advisor</title>
 		<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
 </head>
+
 <body style="background-color: #222222;">
 	{% include 'base/navbar.html' %}
+  	<!-- The sidebar -->
+<div class="sidebar">
+  <h2 style="margin-left: 5%;"><u>Filters</u></h2>
+  <form id="filterForm" method="post" hx-post="{% url 'filter-list' %}" hx-target="#content-list">
+  <!-- County Filter -->
+  <label for="county">County:</label>
+      <select  name="county" id="county" hx-get="/get-districts/" hx-trigger="change"  hx-target="#info-container">
+          <option value="">All</option>
+    {% for county in distinct_counties %}
+    <option value="{{county}}">{{county}}</option>
+    {% endfor %}
+      </select>
+  <br>    	
+  <div style='display: none;'id="info-container"></div>
+  <!-- District Filter -->
+  <div id="district-container">
+  <label for="district">District:</label>
+      <select name="district" id="district" >
+          <option value="">All</option>
+      </select>
+    </div>
+  
+  <!-- The container to update with the received "District" options -->
+<div style="display: none;" id="district-options"></div>
+
+      <!-- Place Type Filter -->
+      <label for="place_type">Place Type:</label>
+      <select name="place_type" id="place_type">
+          <option value="">All</option>
+    <option value="Bar">Bar</option>
+    <option value="Cafe">Cafe</option>
+    <option value="Club">Club</option>
+    <option value="Food">Food</option>
+      </select>
+  <br>
+      <!-- Price Category Filter -->
+      <label for="price_category">Price Category:</label>
+      <select name="price_category" id="price_category">
+          <option value="">All</option>
+              <option value="Cheap">Cheap</option>
+              <option value="Normal">Normal</option>
+              <option value="Expensive">Expensive</option>
+      </select>
+  <br>
+      <!-- Loudness Filter -->
+      <label for="loudness">Loudness:</label>
+      <select name="loudness" id="loudness">
+          <option value="">All</option>
+    <option value="Silent">Silent</option>
+    <option value="Moderate">Moderate</option>
+    <option value="Loud">Loud</option>
+      </select>
+      <!-- Checkbox Filters -->
+      <label for="largegroup"></label>
+      <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="largegroup" name="largegroup">
+          <label class="custom-control-label" for="largegroup">Large Group</label>
+      </div>
+
+      <label for="alone"></label>
+      <div class="custom-control custom-checkbox" >
+          <input type="checkbox" class="custom-control-input" id="alone" name="alone">
+          <label class="custom-control-label" for="alone">Alone</label>
+      </div>
+
+      <label for="dateable"></label>
+      <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="dateable" name="dateable">
+          <label class="custom-control-label" for="dateable">Date-Proof</label>
+      </div>
+
+      <label for="kitchen"></label>
+      <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="kitchen" name="kitchen">
+          <label class="custom-control-label" for="kitchen">Kitchen</label>
+      </div>
+
+      <label for="smoke"></label>
+      <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="smoke" name="smoke">
+          <label class="custom-control-label" for="smoke">Smoking Allowed</label>
+      </div>
+
+      <label for="door_policy"></label>
+      <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="door_policy" name="door_policy">
+          <label class="custom-control-label" for="door_policy">Door Policy</label>
+      </div>
+
+      <label for="readble"></label>
+      <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="readble" name="readable">
+          <label class="custom-control-label" for="readble">Read-Friendly</label>
+      </div>
+
+      <label for="workable"></label>
+      <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="workable" name="workable">
+          <label class="custom-control-label" for="workable">Work-friendly</label>
+      </div>
+      <!-- Submit Button -->
+      <br>
+  <button type="submit"  >Apply Filters</button>
+  <button type="button" onclick="resetFilters()">Reset Filters</button>
+  </form><br>
+
+</div>
+
 	<center><h1 style="color: #eeeeee;">Welcome {{request.user}}!</h1></center>
 	<br>
 	{% if request.user.is_authenticated %}
@@ -23,115 +132,7 @@
         </form>
     </center><br>
 {% endif %}
-	<!-- The sidebar -->
-<div class="sidebar">
-    <h2 style="margin-left: 5%;"><u>Filters</u></h2>
-    <form id="filterForm" method="post" hx-post="{% url 'filter-list' %}" hx-target="#content-list">
-		<!-- County Filter -->
-		<label for="county">County:</label>
-        <select  name="county" id="county" hx-get="/get-districts/" hx-trigger="change"  hx-target="#info-container">
-            <option value="">All</option>
-			{% for county in distinct_counties %}
-			<option value="{{county}}">{{county}}</option>
-			{% endfor %}
-        </select>
-		<br>    	
-    <div style='display: none;'id="info-container"></div>
-		<!-- District Filter -->
-    <div id="district-container">
-		<label for="district">District:</label>
-        <select name="district" id="district" >
-            <option value="">All</option>
-        </select>
-      </div>
-		<br> 
-    
-    <!-- The container to update with the received "District" options -->
-<div style="display: none;" id="district-options"></div>
 
-        <!-- Place Type Filter -->
-        <label for="place_type">Place Type:</label>
-        <select name="place_type" id="place_type">
-            <option value="">All</option>
-			<option value="Bar">Bar</option>
-			<option value="Cafe">Cafe</option>
-			<option value="Club">Club</option>
-			<option value="Food">Food</option>
-        </select>
-		<br>
-        <!-- Price Category Filter -->
-        <label for="price_category">Price Category:</label>
-        <select name="price_category" id="price_category">
-            <option value="">All</option>
-                <option value="Cheap">Cheap</option>
-                <option value="Normal">Normal</option>
-                <option value="Expensive">Expensive</option>
-        </select>
-		<br>
-        <!-- Loudness Filter -->
-        <label for="loudness">Loudness:</label>
-        <select name="loudness" id="loudness">
-            <option value="">All</option>
-			<option value="Silent">Silent</option>
-			<option value="Moderate">Moderate</option>
-			<option value="Loud">Loud</option>
-        </select>
-        <!-- Checkbox Filters -->
-        <label for="largegroup"></label>
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="largegroup" name="largegroup">
-            <label class="custom-control-label" for="largegroup">Large Group</label>
-        </div>
-
-        <label for="alone"></label>
-        <div class="custom-control custom-checkbox" >
-            <input type="checkbox" class="custom-control-input" id="alone" name="alone">
-            <label class="custom-control-label" for="alone">Alone</label>
-        </div>
-
-        <label for="dateable"></label>
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="dateable" name="dateable">
-            <label class="custom-control-label" for="dateable">Date-Proof</label>
-        </div>
-
-        <label for="kitchen"></label>
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="kitchen" name="kitchen">
-            <label class="custom-control-label" for="kitchen">Kitchen</label>
-        </div>
-
-        <label for="smoke"></label>
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="smoke" name="smoke">
-            <label class="custom-control-label" for="smoke">Smoking Allowed</label>
-        </div>
-
-        <label for="door_policy"></label>
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="door_policy" name="door_policy">
-            <label class="custom-control-label" for="door_policy">Door Policy</label>
-        </div>
-
-        <label for="readble"></label>
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="readble" name="readable">
-            <label class="custom-control-label" for="readble">Read-Friendly</label>
-        </div>
-
-        <label for="workable"></label>
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="workable" name="workable">
-            <label class="custom-control-label" for="workable">Work-friendly</label>
-        </div>
-        <!-- Submit Button -->
-        <br><br>
-		<button type="submit"  >Apply Filters</button>
-    <button type="button" onclick="resetFilters()">Reset Filters</button>
-    </form><br>
-
-  </div>
-  
   <!-- Page content -->
   <div id='content-list' hx-get="list_places">
   <div style="margin: 0 25%;">
@@ -183,9 +184,9 @@
   padding: 0;
   width: 25%;
   background-color: #ff8d41;
-  position: fixed;
-  height: 100%;
-  overflow: auto;
+  position:fixed ;
+  height: 60%;
+  overflow:auto;
   border-radius: 5%;
 }
 .sidebar form{
@@ -305,4 +306,19 @@ div.content {
             target: '#content-list'
         });
     }
+
+    // Function to set the sidebar height based on window size
+    function setSidebarHeight() {
+    var windowHeight = window.innerHeight;
+    var sidebar = document.querySelector('.sidebar');
+    if (sidebar) {
+        sidebar.style.height = (windowHeight ) + 'px'; // Adjust the multiplier as needed
+    }
+}
+
+    // Call the function when the page loads
+    window.onload = setSidebarHeight;
+
+    // Call the function when the window is resized
+    window.onresize = setSidebarHeight;
 </script>

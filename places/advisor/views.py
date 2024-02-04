@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import PlaceInfo
 from django.utils import timezone
 from .forms import PlaceForm
-from django.contrib import messages
+
 # Create your views here.
 def home_page(request, *args, **kwargs):
     
@@ -113,13 +113,8 @@ def create_place(request):
             print('form is valid')
             form.save()
             return redirect('list_places')
-        else:
-            # Form is not valid, show error messages
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f"Error in {field}: {error}")  # Redirect to the place list page
+          # Redirect to the place list page
     else:
-        print('form is not valid')
         form = PlaceForm()
 
     return render(request, 'advisor/create-place.html', {'form': form})

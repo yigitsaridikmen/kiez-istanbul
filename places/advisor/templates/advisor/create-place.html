@@ -26,73 +26,78 @@
 
   <!-- Page content -->
 <!-- Page content -->
-<div id='content-list'>
-    <div style="margin: 0 25%; color: whitesmoke;">
-      <h2>Create a New Place</h2>
+<div style="background-color: #410139;
+	margin-left: 20%;
+	padding: 10px 16px;
+	max-width: 60%;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.322);" id='content-list'>
+    <div style="font-size:medium ; margin: 0 25%; color: whitesmoke;">
+      <h2><u>Add a New Place</u></h2><br>
       <form method="post" action="{% url 'create-place' %}">
         {% csrf_token %}
         
-        <div class="form-group">
+        <div class="form-group col-sm-1">
           <label for="{{ form.name.id_for_label }}">Name:</label>
           {{ form.name }}
         </div>
-        <div class="form-group">
+        <div class="form-group col-sm-1">
             <label for="{{ form.address.id_for_label }}">Address:</label>
             {{ form.address }}
           </div>
-          <div class="form-group">
+          <div class="form-group col-sm-1">
             <label for="{{ form.county.id_for_label }}">County:</label>
             {{ form.county }}
           </div>  
-        <div class="form-group">
+        <div class="form-group col-sm-1">
           <label for="{{ form.district.id_for_label }}">District:</label>
           {{ form.district }}
         </div>
-        <div class="form-group">
+        <div class="form-group col-sm-1">
             <label for="{{ form.place_type.id_for_label }}">Place Type:</label>
             {{ form.place_type }}
           </div>
-        <div class="form-group">
+        <div class="form-group col-sm-1">
             <label for="{{ form.price_category.id_for_label }}">Price Category:</label>
             {{ form.price_category }}
           </div>
-          <div class="form-group">
+          <div class="form-group col-sm-1">
             <label for="{{ form.loudness.id_for_label }}">Loudness Level:</label>
             {{ form.loudness }}
           </div>
-          <div class="form-group">
+          <div class="form-group col-sm-1">
             <label for="{{ form.largegroup.id_for_label }}">Fit for large groups?</label>
             {{ form.largegroup }}
           </div>
-          <div class="form-group">
+          <div class="form-group col-sm-1">
             <label for="{{ form.alone.id_for_label }}">Fit for alone time?</label>
             {{ form.alone }}
           </div>
-          <div class="form-group">
+          <div class="form-group col-sm-1">
             <label for="{{ form.dateable.id_for_label }}">Date-Proof?</label>
             {{ form.dateable }}
           </div>
-          <div class="form-group">
+          <div class="form-group col-sm-1">
             <label for="{{ form.kitchen.id_for_label }}">Kitchen available?</label>
             {{ form.kitchen }}
           </div>
-          <div class="form-group">
+          <div class="form-group col-sm-1">
             <label for="{{ form.smoke.id_for_label }}">Smoking Allowed?</label>
             {{ form.smoke }}
-          </div>
-          <div class="form-group">
+          </div> 
+          <div class="form-group col-sm-1">
             <label for="{{ form.door_policy.id_for_label }}">Is there a door policy?</label>
             {{ form.door_policy }}
           </div>
-          <div class="form-group">
+          <div class="form-group col-sm-1">
             <label for="{{ form.readable.id_for_label }}">Readable?</label>
             {{ form.readable }}
           </div>
-          <div class="form-group">
+          <div class="form-group col-sm-1">
             <label for="{{ form.workable.id_for_label }}">Workable?</label>
             {{ form.workable }}
           </div>
-        <div class="form-group">
+        <div class="form-group col-sm-1">
             <label for="{{ form.comment.id_for_label }}">Comments or Special Recommendations</label>
             {{ form.comment }}
           </div>
@@ -111,56 +116,23 @@
 </body>
 </html>
 <style>
-	/* The side navigation menu */
-    .sidebar {
-  margin: 0;
-  padding: 0;
-  width: 10%;
-  background-color: #ff8d41;
-  position: fixed;
-  height: 100%;
-  overflow: auto;
-  border-radius: 5%;
-}
-.sidebar form{
-  margin-left: 5%;
-}
-/* Sidebar links */
-.sidebar a {
-  display: block;
-  color: black;
-  padding: 16px;
-  text-decoration: none;
-}
-
-/* Active/current link */
-.sidebar a.active {
-  background-color: #04AA6D;
-  color: white;
-}
-.sidebar button {
-	cursor: pointer;
-	background-color: #bebebc;
-}
-/* Links on mouse-over */
-.sidebar a:hover:not(.active) {
-  background-color: #555;
-  color: white;
-}
 
 /* Page content. The value of the margin-left property should match the value of the sidebar's width property */
-div.content {
-	margin-left: 200px;
-	padding: 10px 16px;
-	max-width: 600px;
-	border-radius: 8px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.322);
-	/*background-color: #05008b;*/
+form input, form textarea,
+    form select {
+        background-color: #d9e8f7; /* Light gray background color */
+    }
+
+/* Increase the size of checkbox inputs */
+input[type="checkbox"] {
+    width: 1.5em; /* Adjust the width as needed */
+    height: 1.5em; /* Adjust the height as needed */
 }
 
-
-
-
+/* Style for checkbox labels */
+input[type="checkbox"] + label {
+    padding-left: 5.5em; /* Add some padding to align the label with the checkbox */
+}
 /* On screens that are less than 700px wide, make the sidebar into a topbar */
 @media screen and (max-width: 700px) {
   .sidebar {
