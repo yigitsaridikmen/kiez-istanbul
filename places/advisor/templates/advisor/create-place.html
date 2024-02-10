@@ -10,10 +10,19 @@
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<title>Add a new place</title>
 		<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
-</head>
+  <!--Head Scripts for Google Places API-->
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places" data-api-key="{{ google_api_key }}"></script>
+    <script>
+        // Initialize Google Places autocomplete
+        function initAutocomplete() {
+            var input = document.getElementById('id_address_input');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+        }
+    </script>
+  </head>
 <body style="background-color: #222222;">
 	{% include 'base/navbar.html' %}
-	<center><h1 style="color: #eeeeee;">Welcome {{request.user}}!</h1></center>
+	<center><h1 style="color: #eeeeee;">Welcome {{request.user}}{{google_api_key}}!</h1></center>
 	<br>
 	{% if request.user.is_authenticated %}
     <center style="color: #eeeeee;">
@@ -43,7 +52,7 @@
         </div>
         <div class="form-group col-sm-1">
             <label for="{{ form.address.id_for_label }}">Address:</label>
-            {{ form.address }}
+            <input type="text" class="form-control" id="id_address_input" name="address" placeholder="Enter address">
           </div>
           <div class="form-group col-sm-1">
             <label for="{{ form.county.id_for_label }}">County:</label>
@@ -185,4 +194,11 @@ input[type="checkbox"] + label {
         }}catch(error){}
     });
 
+</script>
+<!--Scripts for Google Places API-->
+
+    <script>
+    window.onload = function() {
+            initAutocomplete();
+        };
 </script>

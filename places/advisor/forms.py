@@ -2,6 +2,9 @@ from django import forms
 from .models import PlaceInfo
 
 class PlaceForm(forms.ModelForm):
+
+    address_input = forms.CharField(label='Address', max_length=100)
+    
     class Meta:
         model = PlaceInfo
         fields = [

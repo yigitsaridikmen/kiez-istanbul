@@ -10,6 +10,7 @@ urlpatterns = [
     path("filter-list/", advisor.filter_list, name="filter-list"),
     path('create-place/', advisor.create_place, name='create-place'),
 	path('<slug:slug>/', advisor.place_detail, name='place_detail'),
+    #path('address_autocomplete/', advisor.address_autocomplete, name='address_autocomplete'),
 	# login-section
 	path("auth/login/", LoginView.as_view
 		(template_name="advisor/loginpage.html"), name="login-user"),

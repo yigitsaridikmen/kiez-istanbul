@@ -1,0 +1,17 @@
+<!-- autocomplete_result.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Autocomplete Result</title>
+</head>
+<body>
+    <h1>Autocomplete Result</h1>
+    <ul>
+        {% for result in results %}
+            <li>{{ result.description }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
