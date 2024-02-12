@@ -110,11 +110,14 @@ def place_detail(request, slug):
 def create_place(request):
     print('Create place view triggerred')
     if request.method == 'POST':
-        print('POST Method')
         form = PlaceForm(request.POST)
         print(form)
         form.instance.user = request.user
         if form.is_valid():
+            # Retrieve the address_input value from the form
+            address_input = form.cleaned_data.get('address_input')
+            # Assign the address_input value to the address field in the instance
+            form.instance.address = address_input
             print('form is valid')
             form.save()
             return redirect('list_places')
