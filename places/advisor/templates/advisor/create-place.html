@@ -11,13 +11,38 @@
 		<title>Add a new place</title>
 		<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
   <!--Head Scripts for Google Places API-->
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=places" data-api-key="{{ google_api_key }}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWFVUN1d9ULXH0vKDW7Hmwu0F4Z0hLArs&libraries=places"></script>
     <script>
-        // Initialize Google Places autocomplete
-        function initAutocomplete() {
-            var input = document.getElementById('id_address_input');
-            var autocomplete = new google.maps.places.Autocomplete(input);
-        }
+// Initialize Google Places autocomplete
+// Modify your existing JavaScript function to handle the selection event
+function initAutocomplete() {
+    var input = document.getElementById('id_address_input');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+
+    // Listen for the 'place_changed' event
+    autocomplete.addListener('place_changed', function() {
+        var place = autocomplete.getPlace();
+
+        // Extract the county and district from the place result
+        var addressComponents = place.address_components;
+        var county = "";
+        var district = "";
+
+        // Loop through the address components to find the county and district
+        addressComponents.forEach(function(component) {
+            if (component.types.includes('administrative_area_level_4')) {
+                district = component.long_name;
+            } else if (component.types.includes('administrative_area_level_2')) {
+                county = component.long_name;
+            }
+        });
+
+        // Populate the County and District form fields
+        document.getElementById('id_county').value = county;
+        document.getElementById('id_district').value = district;
+    });
+}
+
     </script>
   </head>
 <body style="background-color: #222222;">
@@ -52,7 +77,7 @@
         </div>
         <div class="form-group col-sm-1">
             <label for="{{ form.address.id_for_label }}">Address:</label>
-            <input type="text" class="form-control" id="id_address_input" name="address" placeholder="Enter address">
+            <input style='color: black;width: 300px' type="text" class="form-control" id="id_address_input" name="address" placeholder="Enter address">
           </div>
           <div class="form-group col-sm-1">
             <label for="{{ form.county.id_for_label }}">County:</label>
@@ -164,35 +189,35 @@ input[type="checkbox"] + label {
 
 <script>
 
-    document.addEventListener('htmx:afterRequest', function (event) {
-        var responseString = event.detail.xhr.response;
-        try{
-        var response = JSON.parse(responseString);
-        var districts = response.districts;
-        console.log(response);
-        console.log(districts);
-        var districtSelect = document.getElementById('district');
-        console.log(districtSelect);
-        // Check if the target element exists
-        if (districtSelect) {
-            // Clear existing options
-            districtSelect.innerHTML = '<option value="">All</option>';
+    // document.addEventListener('htmx:afterRequest', function (event) {
+    //     var responseString = event.detail.xhr.response;
+    //     try{
+    //     var response = JSON.parse(responseString);
+    //     var districts = response.districts;
+    //     console.log(response);
+    //     console.log(districts);
+    //     var districtSelect = document.getElementById('district');
+    //     console.log(districtSelect);
+    //     // Check if the target element exists
+    //     if (districtSelect) {
+    //         // Clear existing options
+    //         districtSelect.innerHTML = '<option value="">All</option>';
 
-            // Populate with received options
-            response.districts.forEach(function (district) {
-                var optionElement = document.createElement('option');
-                optionElement.value = district;
-                optionElement.text = district;
-                // console.log('OPtionelement',optionElement);
-                districtSelect.appendChild(optionElement);
-            });
-        }
-        // Optional: Update a separate container with the received options
-        var districtOptionsContainer = document.getElementById('district-options');
-        if (districtOptionsContainer) {
-            districtOptionsContainer.innerHTML = JSON.stringify(response.districts, null, 2);
-        }}catch(error){}
-    });
+    //         // Populate with received options
+    //         response.districts.forEach(function (district) {
+    //             var optionElement = document.createElement('option');
+    //             optionElement.value = district;
+    //             optionElement.text = district;
+    //             // console.log('OPtionelement',optionElement);
+    //             districtSelect.appendChild(optionElement);
+    //         });
+    //     }
+    //     // Optional: Update a separate container with the received options
+    //     var districtOptionsContainer = document.getElementById('district-options');
+    //     if (districtOptionsContainer) {
+    //         districtOptionsContainer.innerHTML = JSON.stringify(response.districts, null, 2);
+    //     }}catch(error){}
+    // });
 
 </script>
 <!--Scripts for Google Places API-->
@@ -201,4 +226,53 @@ input[type="checkbox"] + label {
     window.onload = function() {
             initAutocomplete();
         };
+
+
+//         $(document).ready(function() {
+//     $('#id_address_input').on('input', function() {
+//         var address = $(this).val();
+//         if (address.length > 2) { // Adjust the minimum length as needed
+//             $.ajax({
+//                 url: '{% url "address_autocomplete" %}',
+//                 method: 'GET',
+//                 data: {
+//                     'address': address
+//                 },
+//                 success: function(response) {
+//                     console.log('Autocomplete results:', response);
+//                     // Handle autocomplete results, e.g., display in a dropdown
+//                 },
+//                 error: function(xhr, status, error) {
+//                     console.error('Error fetching autocomplete results:', error);
+//                 }
+//             });
+//         }
+//     });
+// });
+
+
+
+// document.getElementById('id_address_input').addEventListener('input', function(event) {
+//         // Extract the input value
+//         var address = event.target.value;
+//         console.log('listener event');
+//         console.log('JS address: ',address);
+//         // Make a fetch request to the address_autocomplete endpoint
+//         fetch('{% url "address_autocomplete" %}', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'X-CSRFToken': '{{ csrf_token }}'  // Add CSRF token header
+//             },
+//             body: JSON.stringify({ address: address })  // Send the address as JSON data
+//         })
+//         .then(response => response.json())
+//         .then(data => {
+//             // Handle the response data (e.g., update UI with autocomplete results)
+//             console.log(data);
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//         });
+//     });
 </script>
