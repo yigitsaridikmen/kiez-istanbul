@@ -17,7 +17,11 @@
 // Modify your existing JavaScript function to handle the selection event
 function initAutocomplete() {
     var input = document.getElementById('id_address_input');
-    var autocomplete = new google.maps.places.Autocomplete(input);
+    var autocomplete = new google.maps.places.Autocomplete(input, {
+            // types: ['geocode'], // Restrict to addresses only
+            componentRestrictions: {country: 'tr'}, // Restrict to Turkey
+            fields: ['address_components', 'geometry'], // Specify the fields to return
+        });
 
     // Listen for the 'place_changed' event
     autocomplete.addListener('place_changed', function() {
