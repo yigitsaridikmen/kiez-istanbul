@@ -57,6 +57,11 @@
 </div>
 {% endif %}
   <br>
+  {% if place.lat > 0 and place.lng > 0 %}
+  <button style='margin-left: 1%;' type="button" class="btn btn-primary" data-toggle="modal" data-target="#googleMapsModal">
+    See on Map
+  </button>
+  {% endif %}
 <div  class="container mt-4">
     <table class="table table-striped table-bordered"  id="detailTable">
         <tbody>
@@ -115,9 +120,33 @@
     </div>
 </div>
 </div>
+<!-- -->
 
 
 </div>
+<!-- Google Maps Link Button Modal -->
+<div class="modal fade" id="googleMapsModal" tabindex="-1" role="dialog" aria-labelledby="googleMapsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="googleMapsModalLabel">Google Maps</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Redirect to Google Maps link -->
+          <a id="googleMapsLink" href="#" target="_blank">View on Google Maps</a>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Google Maps Link Button Modal end-->
+<div id="lat_id" style="display: hidden;"  >{{ place.lat }}</div>
+<div id="lng_id" style="display: hidden;"  >{{ place.lng }}</div>
 	 <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -251,4 +280,10 @@ div.content {
             }
         }
     });
+    // Get longitude and latitude
+    var lat = document.getElementById('lat_id').innerText;
+    var lng = document.getElementById('lng_id').innerText;
+    // Construct Google Maps link
+    var googleMapsLink = 'https://www.google.com/maps?q=' + lat + ',' + lng;
+    document.getElementById('googleMapsLink').setAttribute('href', googleMapsLink);
 </script>

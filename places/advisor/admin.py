@@ -24,7 +24,9 @@ class PlaceAdmin(admin.ModelAdmin):
     'workable',
     'loudness',
     'comment' ,
-    'created_at'
+    'created_at',
+    'lat',
+    'lng'
     ]
     search_fields = [    
     'name',

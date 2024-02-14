@@ -24,7 +24,9 @@ class PlaceForm(forms.ModelForm):
     'readable',
     'workable',
     'loudness',
-    'comment' 
+    'comment' ,
+    'lat',
+    'lng'
         ]
     widgets = {
     'user': forms.HiddenInput(),  # Use HiddenInput widget for the 'user' field
