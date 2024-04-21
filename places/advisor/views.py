@@ -43,11 +43,11 @@ def get_districts(request):
 
 @csrf_exempt    
 def filter_list(request):
-    # Assuming YourPlaceModel is the model for your places
+    
     places = PlaceInfo.objects.all()
 
     # Handle form submission for filtering
-    if request.method == 'POST':
+    if request.method == 'POST' or None:
         county = request.POST.get('county', '')
         district = request.POST.get('district', '')
         place_type = request.POST.get('place_type', '')
@@ -126,31 +126,6 @@ def create_place(request):
         form = PlaceForm()
 
     return render(request, 'advisor/create-place.html', {'form': form})
-
-
-# def create_place(request):
-#     if request.method == 'POST':
-#         form = PlaceForm(request.POST)
-#         form.instance.user = request.user
-#         if form.is_valid():
-#             form.save()
-#             return redirect('list_places')  # Redirect to the place list page
-#     else:
-#         form = PlaceForm()
-
-#     # Initialize Google Maps API client
-#     gmaps = googlemaps.Client(key=settings.GOOGLE_API_KEY)
-
-#     # Handle address autocomplete logic
-#     if 'address_input' in request.POST:
-#         address = request.POST.get('address_input')
-#         print("request adres:",address)
-#         autocomplete_result = gmaps.places_autocomplete(address)
-#         print('AUTOCOMPLETE: ', autocomplete_result)
-#         return render(request, 'autocomplete_result.html', {'results': autocomplete_result})
-
-#     return render(request, 'advisor/create-place.html', {'form': form,'google_api_key':settings.GOOGLE_API_KEY})
-
 
 
 def address_autocomplete(request):
