@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 #from decouple import config
 from pathlib import Path
 import os
+
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-f^^wbj#q^-6d_9j=+f#17wa7s_@(4mo&y)q^c(96uei7&ss@6g'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -137,4 +142,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "list_places"
 
 LOGOUT_REDIRECT_URL = "login-user"
-GOOGLE_API_KEY = 'AIzaSyAWFVUN1d9ULXH0vKDW7Hmwu0F4Z0hLArs'
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
