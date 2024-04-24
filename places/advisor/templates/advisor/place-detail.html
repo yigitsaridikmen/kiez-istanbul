@@ -241,10 +241,10 @@ div.content {
         try{
         var response = JSON.parse(responseString);
         var districts = response.districts;
-        console.log(response);
-        console.log(districts);
+        // console.log(response);
+        // console.log(districts);
         var districtSelect = document.getElementById('district');
-        console.log(districtSelect);
+        // console.log(districtSelect);
         // Check if the target element exists
         if (districtSelect) {
             // Clear existing options
@@ -255,7 +255,6 @@ div.content {
                 var optionElement = document.createElement('option');
                 optionElement.value = district;
                 optionElement.text = district;
-                // console.log('OPtionelement',optionElement);
                 districtSelect.appendChild(optionElement);
             });
         }

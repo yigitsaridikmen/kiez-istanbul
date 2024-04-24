@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from .models import PlaceInfo
 from django.utils import timezone
+from django.views.decorators.csrf import ensure_csrf_cookie
 from .forms import PlaceForm
 # Import for Google Places API
 import googlemaps
@@ -19,6 +19,7 @@ def home_page(request, *args, **kwargs):
 	return render(request, "advisor/advisorhome.html", context)
 
 @login_required(login_url='auth/login/')
+@ensure_csrf_cookie
 def list_places(request):
     qs = PlaceInfo.objects.all()
 	# Get distinct counties and districts
@@ -41,7 +42,7 @@ def get_districts(request):
     else:
         return JsonResponse({})
 
-@csrf_exempt    
+@ensure_csrf_cookie
 def filter_list(request):
     
     places = PlaceInfo.objects.all()
@@ -91,34 +92,31 @@ def filter_list(request):
             places = places.filter(readable=True)
         if workable:
             places = places.filter(workable=True)  
+            
     context = {
         'object_list': places,
         # Add other context variables as needed
     }
     return render(request, "advisor/filter-list.html", context)
 
-
+@ensure_csrf_cookie
 def place_detail(request, slug):
     place = get_object_or_404(PlaceInfo, slug=slug)
-    print(place.city)
-    print(place.county)
-    print(place.name)
-    print(place.slug)
     return render(request, 'advisor/place-detail.html', {'place': place})
 
-
+@ensure_csrf_cookie
 def create_place(request):
-    print('Create place view triggerred')
+    #print('Create place view triggerred')
     if request.method == 'POST':
         form = PlaceForm(request.POST)
-        print(form)
+        #print(form)
         form.instance.user = request.user
         if form.is_valid():
             # Retrieve the address_input value from the form
             address_input = form.cleaned_data.get('address_input')
             # Assign the address_input value to the address field in the instance
             form.instance.address = address_input
-            print('form is valid')
+            #print('form is valid')
             form.save()
             return redirect('list_places')
           # Redirect to the place list page
@@ -129,11 +127,10 @@ def create_place(request):
 
 
 def address_autocomplete(request):
-    print('Autocomplete view is triggered!')
+    #print('Autocomplete view is triggered!')
     print(request.POST,request.GET)
     address = request.POST.get('address', '')
-    print('address requeust',address)
-    #address='Wanderlust Yeldegirmeni'
+    #print('address requeust',address)
     if address:
         gmaps = googlemaps.Client(key=settings.GOOGLE_API_KEY)
         autocomplete_result = gmaps.places_autocomplete(address)

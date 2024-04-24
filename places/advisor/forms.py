@@ -3,7 +3,7 @@ from .models import PlaceInfo
 
 class PlaceForm(forms.ModelForm):
 
-    address_input = forms.CharField(label='Address', max_length=100)
+    address_input = forms.CharField(label='Address', max_length=300)
     
     class Meta:
         model = PlaceInfo
@@ -31,3 +31,6 @@ class PlaceForm(forms.ModelForm):
     widgets = {
     'user': forms.HiddenInput(),  # Use HiddenInput widget for the 'user' field
     }
+
+
+

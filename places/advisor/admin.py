@@ -12,7 +12,6 @@ class PlaceAdmin(admin.ModelAdmin):
     'county',
     'district',
     'place_type',
-    #'activity',
     'largegroup',
     'alone',
     'dateable',
